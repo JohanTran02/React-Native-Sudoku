@@ -9,7 +9,8 @@ module.exports = {
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
-    }
+    },
+    project: './tsconfig.json',
   },
   rules: {
     "react-refresh/only-export-components": "warn",
