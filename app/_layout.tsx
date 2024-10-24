@@ -1,10 +1,13 @@
 import { Stack } from "expo-router/stack";
 import "../global.css"
+import { StrictMode } from "react";
 
 export default function RootLayout() {
   return (
-    <Stack>
-      <Stack.Screen name="index" />
-    </Stack>
+    <StrictMode>
+      <Stack>
+        <Stack.Screen name="index" />
+      </Stack>
+    </StrictMode>
   );
 }
