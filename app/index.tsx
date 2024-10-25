@@ -4,20 +4,22 @@ import { getSudoku } from "sudoku-gen"
 import SudokuBar from "../components/sudokuBar";
 import { generatePuzzle, generateSolution, createBoard } from "@/features/sudoku";
 import SudokuBoard from "@/components/sudokuBoard";
+import { Difficulty } from "sudoku-gen/dist/types/difficulty.type";
 
 export default function Index() {
 	const chanceLimit = 3;
-	const sudoku = getSudoku("easy");
+	const [difficulty, setDifficulty] = useState<Difficulty>("easy")
 	const [chances, setChances] = useState<number>(chanceLimit);
 	const [board, setBoard] = useState<string[][]>(createBoard());
 	const [boardSolution, setBoardSolution] = useState<string[][]>(createBoard());
 	const [playerPos, setPlayerPos] = useState<{ rowIndex: number, columnIndex: number }>({ rowIndex: -1, columnIndex: -1 });
 
 	useEffect(() => {
-		setBoardSolution(generateSolution(sudoku.solution))
+		const sudoku = getSudoku(difficulty);
 		setBoard(generatePuzzle(sudoku.puzzle));
+		setBoardSolution(generateSolution(sudoku.solution))
 		return () => { }
-	}, [])
+	}, [difficulty, board.length])
 
 	useEffect(() => {
 		if (chances <= 0) console.log("you lose");
