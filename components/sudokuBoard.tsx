@@ -1,5 +1,6 @@
-import { Dispatch, SetStateAction, useState } from "react";
-import { Text, View, TouchableWithoutFeedback } from "react-native";
+import { Dispatch, SetStateAction, useState, } from "react";
+import { FlatList, View, } from "react-native";
+import SudokuCell from "./sudokuCell";
 
 export default function SudokuBoard({ board, playerPos, setPlayerPos }: {
     board: string[][],
@@ -7,30 +8,43 @@ export default function SudokuBoard({ board, playerPos, setPlayerPos }: {
     setPlayerPos: Dispatch<SetStateAction<{ rowIndex: number, columnIndex: number }>>
 }) {
     const [currentNumber, setCurrentNumber] = useState<string>("-");
-
     return (
-        <View className="border-[1px] border-gray-300">
-            {board.map(((row, rowIndex) => (
-                <View key={rowIndex} className="flex-row">
-                    {row.map((cell, cellIndex) => (
-                        <TouchableWithoutFeedback key={cellIndex} onPress={() => {
-                            setPlayerPos({ rowIndex, columnIndex: cellIndex })
-                            setCurrentNumber(cell)
-                        }}>
-                            <View
-                                className={
-                                    `w-12 h-12 items-center justify-center border-[1px] border-gray-300
-                                    ${(cellIndex + 1) === 3 || (cellIndex + 1) === 6 ? "border-r-gray-700" : ""}
-                                    ${(rowIndex + 1) === 3 || (rowIndex + 1) === 6 ? "border-b-gray-700" : ""}
-                                    ${((playerPos.rowIndex === rowIndex) || (playerPos.columnIndex === cellIndex)) && (cell.includes("-") || !cell.includes(currentNumber)) ? "bg-slate-300" : ""}
-                                    ${!cell.includes("-") && cell.includes(currentNumber) ? "bg-blue-700" : ""}`
-                                }>
-                                <Text className="text-2xl">{cell.includes("-") ? "" : cell}</Text>
-                            </View>
-                        </TouchableWithoutFeedback>
-                    ))}
-                </View>
-            )))}
+        <View>
+            <FlatList className="flex-1" data={board} renderItem={
+                ({ item, index }) => {
+                    const rowIndex = index;
+                    return (
+                        <View className="flex-row">
+                            {item.map((cell, cellIndex) => (
+                                <SudokuCell
+                                    key={cellIndex}
+                                    cell={cell}
+                                    rowIndex={rowIndex}
+                                    cellIndex={cellIndex}
+                                    playerPos={playerPos}
+                                    currentNumber={currentNumber}
+                                    setCurrentNumber={setCurrentNumber}
+                                    setPlayerPos={setPlayerPos}
+                                />
+                            ))}
+                        </View>)
+                }}>
+            </FlatList>
         </View>
     )
 }
+// {board.map(((row, rowIndex) => (
+//     <View key={rowIndex} className="flex-row">
+//         {row.map((cell, cellIndex) => (
+//             <SudokuCell
+//                 key={cellIndex}
+//                 playerPos={playerPos}
+//                 setPlayerPos={setPlayerPos}
+//                 cellIndex={cellIndex}
+//                 cell={cell}
+//                 rowIndex={rowIndex}
+//                 currentNumber={currentNumber}
+//                 setCurrentNumber={setCurrentNumber} />
+//         ))}
+//     </View>
+// )))}
