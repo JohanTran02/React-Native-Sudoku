@@ -5,7 +5,8 @@ import SudokuBar from "../components/sudokuBar";
 import { generatePuzzle, generateSolution, createBoard, checkSolution } from "@/features/sudoku";
 import SudokuBoard from "@/components/sudokuBoard";
 import { Difficulty } from "sudoku-gen/dist/types/difficulty.type";
-import SudokuDiff from "@/components/sudokuDiff";
+// import SudokuDiff from "@/components/sudokuDiff";
+import SudokuModal from "@/components/sudokuModal";
 
 export default function Index() {
 	const chanceLimit = 3;
@@ -48,13 +49,14 @@ export default function Index() {
 	return (
 		//På mobilen försvinner containern när det är items-center??
 		<View className="flex flex-1">
-			<SudokuDiff difficulty={difficulty} setDifficulty={setDifficulty} />
+			{/* <SudokuDiff difficulty={difficulty} setDifficulty={setDifficulty} /> */}
 			<View className="flex flex-1 items-center justify-center">
 				<Text className="text-2xl">Chances</Text>
 				<Text className="text-2xl">{chances}/3</Text>
 				<SudokuBoard board={board} setPlayerPos={setPlayerPos} playerPos={playerPos} />
 				<SudokuBar checkBoardClick={checkBoardClick} />
 			</View>
+			<SudokuModal setDifficulty={setDifficulty} />
 		</View>
 	);
 }
