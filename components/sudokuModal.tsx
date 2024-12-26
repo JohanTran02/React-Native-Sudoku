@@ -1,8 +1,9 @@
-import { useRef, useCallback, Dispatch, SetStateAction, useState } from "react";
-import { BottomSheetModal, BottomSheetModalProvider, BottomSheetView, BottomSheetFlatList } from '@gorhom/bottom-sheet';
+import { useCallback, Dispatch, SetStateAction, RefObject, useState } from "react";
+import BottomSheet, { BottomSheetView, BottomSheetFlatList, BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { Button, Text, StyleSheet, TouchableWithoutFeedback } from "react-native";
+import { Button, Text, Pressable, StyleSheet } from "react-native";
 import { Difficulty } from "sudoku-gen/dist/types/difficulty.type";
+import { useSharedValue } from "react-native-reanimated";
 
 const difficulties: SudokuModeType[] = [
     { difficulty: "easy", id: "Easy Mode" },
@@ -11,51 +12,63 @@ const difficulties: SudokuModeType[] = [
     { difficulty: "expert", id: "Expert Mode" }
 ];
 
-export default function SudokuModal({ setDifficulty }: { setDifficulty: Dispatch<SetStateAction<Difficulty>> }) {
+export default function SudokuModal({ setDifficulty, bottomSheetModalRef: bottomSheetRef }: { setDifficulty: Dispatch<SetStateAction<Difficulty>>, bottomSheetModalRef: RefObject<BottomSheet> }) {
+    const index = useSharedValue(0);
+    const pos = useSharedValue(0);
+    const [openModal, setOpenModal] = useState<boolean>(false)
 
-    // ref
-    const [showDropdown, setShowDropdown] = useState(false);
-    const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-
+    // renders
+    const renderBackdrop = useCallback(
+        () => (
+            <BottomSheetBackdrop
+                animatedIndex={index}
+                animatedPosition={pos}
+                pressBehavior={"close"}
+            />
+        ),
+        []
+    );
     // callbacks
     const handlePresentModalPress = useCallback(() => {
-        bottomSheetModalRef.current?.present();
-    }, []);
-
-    const handleSheetChanges = useCallback((index: number) => {
-        console.log('handleSheetChanges', index);
-    }, []);
+        setOpenModal(prevValue => !prevValue)
+        console.log(openModal)
+        if (bottomSheetRef.current) {
+            openModal ? bottomSheetRef.current.close() : bottomSheetRef.current.expand();
+        }
+    }, [openModal]);
 
     const Item = ({ difficulty, setDifficulty }: { difficulty: Difficulty, setDifficulty: Dispatch<SetStateAction<Difficulty>> }) => (
-        <TouchableWithoutFeedback onPress={() => {
+        <Pressable onPress={() => {
             setDifficulty(difficulty)
-            setShowDropdown(prevValue => !prevValue)
         }}>
             <Text className="text-2xl text-center">{difficulty}</Text>
-        </TouchableWithoutFeedback>
+        </Pressable>
     );
 
+    const handleSheetChanges = useCallback((index: number) => {
+        console.log("handleSheetChanges", index);
+    }, []);
 
+    //Fortsätt med backdrop imorgon som ska täcka hela skärmen och vara över innehållet
     return (
-        <GestureHandlerRootView style={styles.container}>
-            <BottomSheetModalProvider>
-                <Button
-                    onPress={handlePresentModalPress}
-                    title="Present Modal"
-                    color="black"
-                />
-                <BottomSheetModal
-                    ref={bottomSheetModalRef}
-                    onChange={handleSheetChanges}
-                >
-                    <BottomSheetView style={styles.contentContainer}>
-                        <BottomSheetFlatList
-                            data={difficulties}
-                            renderItem={({ item }) => <Item difficulty={item.difficulty} setDifficulty={setDifficulty} />}
-                            keyExtractor={item => item.id} />
-                    </BottomSheetView>
-                </BottomSheetModal>
-            </BottomSheetModalProvider>
+        <GestureHandlerRootView className="flex-1">
+            <Button
+                onPress={handlePresentModalPress}
+                title="Present Modal"
+                color="black"
+            />
+            <BottomSheet
+                ref={bottomSheetRef}
+                backdropComponent={renderBackdrop}
+                onChange={handleSheetChanges}
+            >
+                <BottomSheetView >
+                    <BottomSheetFlatList
+                        data={difficulties}
+                        renderItem={({ item }) => <Item difficulty={item.difficulty} setDifficulty={setDifficulty} />}
+                        keyExtractor={item => item.id} />
+                </BottomSheetView>
+            </BottomSheet>
         </GestureHandlerRootView>
     );
 }
@@ -63,14 +76,11 @@ export default function SudokuModal({ setDifficulty }: { setDifficulty: Dispatch
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 200,
+        padding: 24,
+        backgroundColor: "grey",
     },
     contentContainer: {
-        backgroundColor: "white",
-    },
-    itemContainer: {
-        padding: 6,
-        margin: 6,
-        backgroundColor: "#eee",
+        flex: 1,
+        alignItems: "center",
     },
 });

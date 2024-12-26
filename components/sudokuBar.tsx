@@ -1,4 +1,4 @@
-import { Text, View, TouchableWithoutFeedback } from "react-native";
+import { Text, View, Pressable } from "react-native";
 
 export default function SudokuBar({ checkBoardClick }: {
     checkBoardClick: (currentNumber: string) => void
@@ -8,11 +8,11 @@ export default function SudokuBar({ checkBoardClick }: {
     return (
         <View className="flex-row">
             {numbers.map(number => (
-                <TouchableWithoutFeedback key={number} onPress={(() => {
+                <Pressable key={number} onPress={(() => {
                     checkBoardClick(number)
                 })}>
                     <Text className={`text-2xl`} >{number}</Text>
-                </TouchableWithoutFeedback>
+                </Pressable>
             ))}
         </View>
     )

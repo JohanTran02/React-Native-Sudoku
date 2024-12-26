@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { View, Text, TouchableWithoutFeedback } from "react-native";
+import { View, Text, Pressable } from "react-native";
 
 export default function SudokuCell({ playerPos, setPlayerPos, cellIndex, cell, rowIndex, currentNumber, setCurrentNumber }: {
     playerPos: { rowIndex: number, columnIndex: number },
@@ -12,7 +12,7 @@ export default function SudokuCell({ playerPos, setPlayerPos, cellIndex, cell, r
 }) {
 
     return (
-        <TouchableWithoutFeedback onPress={() => {
+        <Pressable onPress={() => {
             setPlayerPos({ rowIndex, columnIndex: cellIndex })
             setCurrentNumber(cell)
         }}>
@@ -26,7 +26,7 @@ export default function SudokuCell({ playerPos, setPlayerPos, cellIndex, cell, r
                 }>
                 <Text className="text-2xl">{cell.includes("-") ? "" : cell}</Text>
             </View>
-        </TouchableWithoutFeedback>
+        </Pressable>
 
     )
 }

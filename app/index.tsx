@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Text, View } from "react-native";
 import { getSudoku } from "sudoku-gen"
 import SudokuBar from "../components/sudokuBar";
@@ -7,6 +7,7 @@ import SudokuBoard from "@/components/sudokuBoard";
 import { Difficulty } from "sudoku-gen/dist/types/difficulty.type";
 // import SudokuDiff from "@/components/sudokuDiff";
 import SudokuModal from "@/components/sudokuModal";
+import BottomSheet from "@gorhom/bottom-sheet";
 
 export default function Index() {
 	const chanceLimit = 3;
@@ -15,6 +16,7 @@ export default function Index() {
 	const [board, setBoard] = useState<string[][]>(createBoard());
 	const [boardSolution, setBoardSolution] = useState<string[][]>(createBoard());
 	const [playerPos, setPlayerPos] = useState<{ rowIndex: number, columnIndex: number }>({ rowIndex: -1, columnIndex: -1 });
+	const bottomSheetRef = useRef<BottomSheet>(null);
 
 	useEffect(() => {
 		const sudoku = getSudoku(difficulty);
@@ -23,6 +25,7 @@ export default function Index() {
 		return () => { }
 	}, [difficulty, board.length])
 
+	//TODO Make a win condition
 	// useEffect(() => {
 	// 	if (chances <= 0) console.log("you lose");
 	// 	return () => { }
@@ -48,15 +51,14 @@ export default function Index() {
 
 	return (
 		//På mobilen försvinner containern när det är items-center??
-		<View className="flex flex-1">
-			{/* <SudokuDiff difficulty={difficulty} setDifficulty={setDifficulty} /> */}
+		<View className="flex flex-1 relative">
 			<View className="flex flex-1 items-center justify-center">
 				<Text className="text-2xl">Chances</Text>
 				<Text className="text-2xl">{chances}/3</Text>
 				<SudokuBoard board={board} setPlayerPos={setPlayerPos} playerPos={playerPos} />
 				<SudokuBar checkBoardClick={checkBoardClick} />
 			</View>
-			<SudokuModal setDifficulty={setDifficulty} />
+			<SudokuModal setDifficulty={setDifficulty} bottomSheetModalRef={bottomSheetRef} />
 		</View>
 	);
 }
