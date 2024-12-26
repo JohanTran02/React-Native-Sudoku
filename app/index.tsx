@@ -5,9 +5,9 @@ import SudokuBar from "../components/sudokuBar";
 import { generatePuzzle, generateSolution, createBoard, checkSolution } from "@/features/sudoku";
 import SudokuBoard from "@/components/sudokuBoard";
 import { Difficulty } from "sudoku-gen/dist/types/difficulty.type";
-// import SudokuDiff from "@/components/sudokuDiff";
 import SudokuModal from "@/components/sudokuModal";
 import BottomSheet from "@gorhom/bottom-sheet";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function Index() {
 	const chanceLimit = 3;
@@ -50,15 +50,15 @@ export default function Index() {
 	}
 
 	return (
-		//På mobilen försvinner containern när det är items-center??
-		<View className="flex flex-1 relative">
-			<View className="flex flex-1 items-center justify-center">
+		//På mobilen försvinner containern när det är items-center?? 
+		<GestureHandlerRootView className="flex-1 flex">
+			<View className="flex flex-1 items-center">
 				<Text className="text-2xl">Chances</Text>
 				<Text className="text-2xl">{chances}/3</Text>
 				<SudokuBoard board={board} setPlayerPos={setPlayerPos} playerPos={playerPos} />
 				<SudokuBar checkBoardClick={checkBoardClick} />
 			</View>
-			<SudokuModal setDifficulty={setDifficulty} bottomSheetModalRef={bottomSheetRef} />
-		</View>
+			<SudokuModal setDifficulty={setDifficulty} bottomSheetRef={bottomSheetRef} />
+		</GestureHandlerRootView>
 	);
 }
