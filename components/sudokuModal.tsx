@@ -1,5 +1,5 @@
-import { useCallback, Dispatch, SetStateAction, RefObject, useState, useMemo } from "react";
-import BottomSheet, { BottomSheetView, BottomSheetFlatList, BottomSheetBackdrop, BottomSheetBackdropProps } from '@gorhom/bottom-sheet';
+import { useCallback, Dispatch, SetStateAction, RefObject } from "react";
+import BottomSheet, { BottomSheetFlatList, BottomSheetBackdrop, BottomSheetBackdropProps } from '@gorhom/bottom-sheet';
 import { Text, Pressable } from "react-native";
 import { Difficulty } from "sudoku-gen/dist/types/difficulty.type";
 
@@ -35,14 +35,14 @@ export default function SudokuModal({ setDifficulty, bottomSheetRef }: { setDiff
     return (
         <BottomSheet
             ref={bottomSheetRef}
-            backdropComponent={renderBackdrop}>
-            <BottomSheetView className="flex-1 flex items-center">
-                <BottomSheetFlatList
-                    data={difficulties}
-                    renderItem={({ item }) => <Item difficulty={item.difficulty} setDifficulty={setDifficulty} />}
-                    keyExtractor={item => item.id}
-                />
-            </BottomSheetView>
+            backdropComponent={renderBackdrop}
+            enableDynamicSizing
+            enablePanDownToClose>
+            <BottomSheetFlatList
+                data={difficulties}
+                renderItem={({ item }) => <Item difficulty={item.difficulty} setDifficulty={setDifficulty} />}
+                keyExtractor={item => item.id}
+            />
         </BottomSheet>
     );
 }
