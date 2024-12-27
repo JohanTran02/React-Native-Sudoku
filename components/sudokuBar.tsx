@@ -10,7 +10,7 @@ export default function SudokuBar({ checkBoardClick }: {
                 <Pressable key={number} onPress={(() => {
                     checkBoardClick(number)
                 })}>
-                    <Text className={`text-2xl`} >{number}</Text>
+                    <View><Text className={`text-2xl`} >{number}</Text></View>
                 </Pressable>
             ))}
         </View>

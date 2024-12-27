@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useState, } from "react";
-import { FlatList, View, } from "react-native";
+import { FlatList, Pressable, View, } from "react-native";
 import SudokuCell from "./sudokuCell";
 
 export default function SudokuBoard({ board, playerPos, setPlayerPos }: {
@@ -8,26 +8,38 @@ export default function SudokuBoard({ board, playerPos, setPlayerPos }: {
     setPlayerPos: Dispatch<SetStateAction<{ rowIndex: number, columnIndex: number }>>
 }) {
     const [currentNumber, setCurrentNumber] = useState<string>("-");
+
+    const Cell = ({ item, index }: { item: string[], index: number }) => {
+        const rowIndex = index;
+        return (
+            <View>
+                {item.map((cell, columnIndex) => (
+                    <Pressable
+                        key={columnIndex}
+                        onPress={() => {
+                            setPlayerPos({ rowIndex, columnIndex })
+                            setCurrentNumber(cell)
+                        }}>
+                        <SudokuCell
+                            cell={cell}
+                            rowIndex={rowIndex}
+                            columnIndex={columnIndex}
+                            playerPos={playerPos}
+                            currentNumber={currentNumber}
+                        />
+                    </Pressable>
+                ))}
+            </View>
+        )
+    }
+
     return (
-        <FlatList className="flex-1" data={board} renderItem={
-            ({ item, index }) => {
-                const rowIndex = index;
-                return (
-                    <View className="flex-row">
-                        {item.map((cell, cellIndex) => (
-                            <SudokuCell
-                                key={cellIndex}
-                                cell={cell}
-                                rowIndex={rowIndex}
-                                cellIndex={cellIndex}
-                                playerPos={playerPos}
-                                currentNumber={currentNumber}
-                                setCurrentNumber={setCurrentNumber}
-                                setPlayerPos={setPlayerPos}
-                            />
-                        ))}
-                    </View>)
-            }}>
-        </FlatList>
+        <View className="flex-1">
+            <FlatList
+                data={board}
+                renderItem={({ item, index }) => <Cell item={item} index={index} />}
+                numColumns={9}>
+            </FlatList>
+        </View>
     )
 }
