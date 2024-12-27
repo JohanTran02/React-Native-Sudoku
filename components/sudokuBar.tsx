@@ -5,7 +5,7 @@ export default function SudokuBar({ checkBoardClick }: {
     checkBoardClick: (currentNumber: string) => void
 }) {
     return (
-        <View className="flex-1 flex-row">
+        <View className="flex-row">
             {numbers.map(number => (
                 <Pressable key={number} onPress={(() => {
                     checkBoardClick(number)
