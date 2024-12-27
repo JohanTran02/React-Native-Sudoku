@@ -2,13 +2,7 @@ import { useCallback, Dispatch, SetStateAction, RefObject } from "react";
 import BottomSheet, { BottomSheetFlatList, BottomSheetBackdrop, BottomSheetBackdropProps } from '@gorhom/bottom-sheet';
 import { Text, Pressable } from "react-native";
 import { Difficulty } from "sudoku-gen/dist/types/difficulty.type";
-
-const difficulties: SudokuModeType[] = [
-    { difficulty: "easy", id: "Easy Mode" },
-    { difficulty: "medium", id: "Medium Mode" },
-    { difficulty: "hard", id: "Hard Mode" },
-    { difficulty: "expert", id: "Expert Mode" }
-];
+import { difficulties } from "@/constants/Sudoku";
 
 export default function SudokuModal({ setDifficulty, bottomSheetRef }: { setDifficulty: Dispatch<SetStateAction<Difficulty>>, bottomSheetRef: RefObject<BottomSheet> }) {
     // renders

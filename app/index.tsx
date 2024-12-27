@@ -2,15 +2,15 @@ import { useEffect, useRef, useState } from "react";
 import { Text, View } from "react-native";
 import { getSudoku } from "sudoku-gen"
 import SudokuBar from "../components/sudokuBar";
-import { generatePuzzle, generateSolution, createBoard, checkSolution } from "@/features/sudoku";
+import { generatePuzzle, createBoard, checkSolution } from "@/features/sudoku";
 import SudokuBoard from "@/components/sudokuBoard";
 import { Difficulty } from "sudoku-gen/dist/types/difficulty.type";
 import SudokuModal from "@/components/sudokuModal";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { chanceLimit } from "@/constants/Sudoku";
 
 export default function Index() {
-	const chanceLimit = 3;
 	const [difficulty, setDifficulty] = useState<Difficulty>("easy")
 	const [chances, setChances] = useState<number>(chanceLimit);
 	const [board, setBoard] = useState<string[][]>(createBoard());
@@ -21,9 +21,9 @@ export default function Index() {
 	useEffect(() => {
 		const sudoku = getSudoku(difficulty);
 		setBoard(generatePuzzle(sudoku.puzzle));
-		setBoardSolution(generateSolution(sudoku.solution))
+		setBoardSolution(generatePuzzle(sudoku.solution))
 		return () => { }
-	}, [difficulty, board.length])
+	}, [difficulty])
 
 	//TODO Make a win condition
 	// useEffect(() => {
