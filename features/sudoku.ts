@@ -13,21 +13,6 @@ const generatePuzzle = (puzzle: string) => {
     return array;
 }
 
-const generateSolution = (solution: string) => {
-    const array: string[][] = createBoard();
-    const sudokuArray = solution.split("")
-
-    array.map((row, rowIndex) => {
-        row.map((column, columnIndex) => {
-            if (sudokuArray[rowIndex * 9 + columnIndex] !== "-") {
-                return array[rowIndex][columnIndex] = sudokuArray[rowIndex * 9 + columnIndex];
-            }
-        })
-    })
-
-    return array;
-}
-
 const checkSolution = (rowIndex: number, columnIndex: number, boardSolution: string[][], number: string): boolean => {
     if (boardSolution[rowIndex][columnIndex] === number) return true;
     else return false;
@@ -44,4 +29,4 @@ const createBoard = () => {
     return board;
 }
 
-export { checkSolution, generatePuzzle, generateSolution, createBoard, }
+export { checkSolution, generatePuzzle, createBoard, }
