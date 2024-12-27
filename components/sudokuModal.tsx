@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { useCallback, Dispatch, SetStateAction, RefObject } from "react";
 import BottomSheet, { BottomSheetFlatList, BottomSheetBackdrop, BottomSheetBackdropProps } from '@gorhom/bottom-sheet';
 import { Text, Pressable } from "react-native";
@@ -17,15 +18,14 @@ export default function SudokuModal({ setDifficulty, bottomSheetRef }: { setDiff
         []
     );
 
-    const Item = ({ difficulty, setDifficulty }: { difficulty: Difficulty, setDifficulty: Dispatch<SetStateAction<Difficulty>> }) => (
+    const renderItem = ({ item }: { item: SudokuModeType }) => (
         <Pressable onPress={() => {
-            setDifficulty(difficulty)
+            setDifficulty(item.difficulty)
         }}>
-            <Text className="text-2xl text-center">{difficulty}</Text>
+            <Text className="text-2xl text-center">{item.difficulty}</Text>
         </Pressable>
     );
 
-    //Fortsätt med backdrop imorgon som ska täcka hela skärmen och vara över innehållet
     return (
         <BottomSheet
             ref={bottomSheetRef}
@@ -34,7 +34,7 @@ export default function SudokuModal({ setDifficulty, bottomSheetRef }: { setDiff
             enablePanDownToClose>
             <BottomSheetFlatList
                 data={difficulties}
-                renderItem={({ item }) => <Item difficulty={item.difficulty} setDifficulty={setDifficulty} />}
+                renderItem={renderItem}
                 keyExtractor={item => item.id}
             />
         </BottomSheet>

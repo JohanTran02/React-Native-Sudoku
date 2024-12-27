@@ -41,18 +41,17 @@ export default function Index() {
 			return;
 		}
 
-		const newBoard: string[][] = board.map((row, rowIndex) =>
-			row.map((column, columnIndex) =>
-				(rowIndex === playerPos.rowIndex && columnIndex === playerPos.columnIndex) ? (column = currentNumber) : (column)
-			)
-		)
+		const newBoard = [...board];
+		newBoard[playerPos.rowIndex] = [...newBoard[playerPos.rowIndex]];
+		newBoard[playerPos.rowIndex][playerPos.columnIndex] = currentNumber;
+
 		setBoard(newBoard)
 	}
 
 	return (
 		//På mobilen försvinner containern när det är items-center?? 
-		<GestureHandlerRootView className="flex-1 flex">
-			<View className="flex flex-1 items-center">
+		<GestureHandlerRootView className="flex-1">
+			<View className="items-center">
 				<Text className="text-2xl">Chances</Text>
 				<Text className="text-2xl">{chances}/3</Text>
 				<SudokuBoard board={board} setPlayerPos={setPlayerPos} playerPos={playerPos} />
