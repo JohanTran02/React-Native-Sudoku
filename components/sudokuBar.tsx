@@ -1,12 +1,11 @@
+import { numbers } from "@/constants/Sudoku";
 import { Text, View, Pressable } from "react-native";
 
 export default function SudokuBar({ checkBoardClick }: {
     checkBoardClick: (currentNumber: string) => void
 }) {
-    const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-
     return (
-        <View className="flex-row">
+        <View className="flex-1 flex-row">
             {numbers.map(number => (
                 <Pressable key={number} onPress={(() => {
                     checkBoardClick(number)
