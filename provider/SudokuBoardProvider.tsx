@@ -15,7 +15,6 @@ export const SudokuBoardProvider = ({ children }: { children: ReactNode }) => {
         setBoardSolution(generatePuzzle(sudoku.solution))
     }, [difficulty])
 
-
     return (
         <>
             <SudokuBoardContext.Provider value={{ difficulty, setDifficulty, board, setBoard, boardSolution }}>

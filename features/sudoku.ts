@@ -15,7 +15,7 @@ const generatePuzzle = (puzzle: string) => {
 
 const checkSolution = (rowIndex: number, columnIndex: number, boardSolution: string[][], number: string): boolean => {
     if (boardSolution[rowIndex][columnIndex] === number) return true;
-    else return false;
+    return false;
 }
 
 const checkWin = (board: string[][]) => {

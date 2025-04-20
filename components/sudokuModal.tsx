@@ -16,7 +16,7 @@ export default function SudokuModal() {
             <BottomSheetBackdrop
                 {...props}
                 disappearsOnIndex={-1}
-                pressBehavior={gameCondition === "lose" ? "none" : "close"}
+                pressBehavior={gameCondition === "lose" || gameCondition === "win" ? "none" : "close"}
             />
         ),
         [gameCondition]
