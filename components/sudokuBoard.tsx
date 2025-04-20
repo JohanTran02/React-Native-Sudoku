@@ -1,12 +1,11 @@
-import { Dispatch, memo, SetStateAction, useCallback, useState, } from "react";
+import { SudokuBoardContext } from "@/context/SudokuBoardContext";
+import { SudokuPosContext } from "@/context/SudokuPosContext";
+import React, { memo, useCallback, useContext, useState } from "react";
 import { FlatList, Pressable, StyleSheet, Text } from "react-native";
-// import SudokuCell from "./sudokuCell";
 
-function SudokuBoard({ board, playerPos, setPlayerPos }: {
-    board: string[][],
-    playerPos: { rowIndex: number, columnIndex: number },
-    setPlayerPos: Dispatch<SetStateAction<{ rowIndex: number, columnIndex: number }>>
-}) {
+function SudokuBoard() {
+    const { playerPos, setPlayerPos } = useContext(SudokuPosContext);
+    const { board } = useContext(SudokuBoardContext);
     const [currentNumber, setCurrentNumber] = useState<string>("-");
 
     const flattenBoard = board.flatMap((row, rowIndex) =>

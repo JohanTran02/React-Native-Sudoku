@@ -18,6 +18,20 @@ const checkSolution = (rowIndex: number, columnIndex: number, boardSolution: str
     else return false;
 }
 
+const checkWin = (board: string[][]) => {
+    const flatBoard = board.flatMap((row) =>
+        row.map((cell) => {
+            if (cell === "-") return 0;
+
+            return parseInt(cell);
+        }));
+
+    const boardSum = flatBoard.reduce((total, value) => total + value); //Det totala värdet en sudokubräda har: 405
+    const boardNumCount = flatBoard.filter((num) => num === 0).length; //Maximala antal nummer på brädan: 81
+
+    return boardSum === 405 && boardNumCount === 81;
+}
+
 const createBoard = () => {
     const board: string[][] = []
     for (let i = 0; i < 9; i++) {
@@ -29,4 +43,4 @@ const createBoard = () => {
     return board;
 }
 
-export { checkSolution, generatePuzzle, createBoard, }
+export { checkSolution, generatePuzzle, createBoard, checkWin }
