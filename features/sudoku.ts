@@ -27,9 +27,8 @@ const checkWin = (board: string[][]) => {
         }));
 
     const boardSum = flatBoard.reduce((total, value) => total + value); //Det totala värdet en sudokubräda har: 405
-    const boardNumCount = flatBoard.filter((num) => num === 0).length; //Maximala antal nummer på brädan: 81
 
-    return boardSum === 405 && boardNumCount === 81;
+    return boardSum === 405;
 }
 
 const createBoard = () => {
