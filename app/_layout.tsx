@@ -1,6 +1,6 @@
 import { Stack } from "expo-router/stack";
 import "../global.css"
-import { SudokuChancesProvider } from "@/provider/SudokuProvider";
+import { SudokuChancesProvider } from "@/provider/SudokuChancesProvider";
 import { SudokuPosProvider } from "@/provider/SudokuPosProvider";
 import { SudokuBoardProvider } from "@/provider/SudokuBoardProvider";
 

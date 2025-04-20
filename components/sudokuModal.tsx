@@ -1,12 +1,14 @@
 /* eslint-disable no-undef */
-import { useCallback, RefObject, useContext } from "react";
+import { useCallback, useContext } from "react";
 import BottomSheet, { BottomSheetFlatList, BottomSheetBackdrop, BottomSheetBackdropProps } from '@gorhom/bottom-sheet';
 import { Text, Pressable } from "react-native";
-import { difficulties } from "@/constants/Sudoku";
+import { chanceLimit, difficulties } from "@/constants/Sudoku";
 import { SudokuBoardContext } from "@/context/SudokuBoardContext";
+import { SudokuChancesContext } from "@/context/SudokuChancesContext";
 
-export default function SudokuModal({ bottomSheetRef }: { bottomSheetRef: RefObject<BottomSheet> }) {
+export default function SudokuModal() {
     const { setDifficulty } = useContext(SudokuBoardContext);
+    const { bottomSheetRef, setChances, gameCondition } = useContext(SudokuChancesContext);
 
     // renders
     const renderBackdrop = useCallback(
@@ -14,15 +16,16 @@ export default function SudokuModal({ bottomSheetRef }: { bottomSheetRef: RefObj
             <BottomSheetBackdrop
                 {...props}
                 disappearsOnIndex={-1}
-                pressBehavior={"close"}
+                pressBehavior={gameCondition === "lose" ? "none" : "close"}
             />
         ),
-        []
+        [gameCondition]
     );
 
     const renderItem = ({ item }: { item: SudokuModeType }) => (
         <Pressable onPress={() => {
             setDifficulty(item.difficulty);
+            setChances(chanceLimit);
             bottomSheetRef.current?.close();
         }}>
             <Text className="text-2xl text-center">{item.difficulty}</Text>
