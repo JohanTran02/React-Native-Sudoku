@@ -1,6 +1,5 @@
 import { createContext, Dispatch, SetStateAction } from 'react';
 
-// Define the position type
 export interface PlayerPos {
     rowIndex: number;
     columnIndex: number;
