@@ -29,12 +29,12 @@ export default function SudokuBar() {
     }
 
     return (
-        <View className="flex-row">
+        <View className="flex-row mt-2">
             {numbers.map(number => (
                 <Pressable key={number} onPress={(() => {
                     checkBoardClick(number);
                 })}>
-                    <View><Text className={`text-2xl`} >{number}</Text></View>
+                    <View><Text className={`text-4xl p-3`}>{number}</Text></View>
                 </Pressable>
             ))}
         </View>
