@@ -1,7 +1,7 @@
 import { Difficulty } from "sudoku-gen/dist/types/difficulty.type"
 
-declare global {
-    interface SudokuModeType {
+declare namespace Sudoku {
+    export interface SudokuModeType {
         id: string;
         difficulty: Difficulty;
     }

@@ -6,7 +6,6 @@ import SudokuModal from "@/components/sudokuModal";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SudokuChancesContext } from "@/context/SudokuChancesContext";
 
-
 export default function Index() {
 	const { chances } = useContext(SudokuChancesContext);
 	return (
