@@ -18,4 +18,5 @@ web-build/
 
 expo-env.d.ts
 *-env.d.ts
+*.d.ts
 # @end expo-cli
