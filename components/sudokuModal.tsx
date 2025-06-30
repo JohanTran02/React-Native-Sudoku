@@ -1,21 +1,18 @@
-import { useCallback, useContext } from "react";
-import BottomSheet, { BottomSheetFlatList, BottomSheetBackdrop, BottomSheetBackdropProps } from '@gorhom/bottom-sheet';
-import { Text, Pressable } from "react-native";
-import { chanceLimit, difficulties } from "@/constants/Sudoku";
-import { SudokuBoardContext } from "@/context/SudokuBoardContext";
-import { SudokuChancesContext } from "@/context/SudokuChancesContext";
-import { Difficulty } from "sudoku-gen/dist/types/difficulty.type";
-import { Sudoku } from "@/types/sudoku";
+import { useCallback, useContext } from 'react';
+import BottomSheet, {
+    BottomSheetFlatList,
+    BottomSheetBackdrop,
+    BottomSheetBackdropProps,
+} from '@gorhom/bottom-sheet';
+import { Text, Pressable, StyleSheet } from 'react-native';
+import { difficulties } from '@/constants/Sudoku';
+import { SudokuChancesContext } from '@/context/SudokuChances';
+import { Sudoku } from '@/types/sudoku';
+import { SudokuGameStateContext } from '@/context/SudokuGameState';
 
 export default function SudokuModal() {
-    const { initiateSudoku } = useContext(SudokuBoardContext);
-    const { bottomSheetRef, setChances, gameCondition, setGameCondition } = useContext(SudokuChancesContext);
-
-    const startGame = (difficulty: Difficulty) => {
-        initiateSudoku(difficulty)
-        setChances(chanceLimit);
-        setGameCondition("playing");
-    }
+    const { bottomSheetRef } = useContext(SudokuChancesContext);
+    const { startGame, gameState } = useContext(SudokuGameStateContext);
 
     // renders
     const renderBackdrop = useCallback(
@@ -23,18 +20,25 @@ export default function SudokuModal() {
             <BottomSheetBackdrop
                 {...props}
                 disappearsOnIndex={-1}
-                pressBehavior={gameCondition === "lose" || gameCondition === "win" ? "none" : "close"}
+                pressBehavior={
+                    gameState === 'lose'
+                    || gameState === 'win'
+                    || gameState === 'idle'
+                        ? 'none'
+                        : 'close'
+                }
             />
         ),
-        [gameCondition]
+        [gameState],
     );
 
     const renderItem = ({ item }: { item: Sudoku.SudokuModeType }) => (
-        <Pressable onPress={() => {
-            startGame(item.difficulty);
-            bottomSheetRef.current?.close();
-        }}>
-            <Text className="text-2xl text-center">{item.difficulty}</Text>
+        <Pressable
+            onPress={() => {
+                startGame(item.difficulty);
+            }}
+        >
+            <Text style={styles.title}>{item.difficulty}</Text>
         </Pressable>
     );
 
@@ -43,7 +47,8 @@ export default function SudokuModal() {
             ref={bottomSheetRef}
             backdropComponent={renderBackdrop}
             enableDynamicSizing
-            enablePanDownToClose>
+            enablePanDownToClose
+        >
             <BottomSheetFlatList
                 data={difficulties}
                 renderItem={renderItem}
@@ -52,3 +57,24 @@ export default function SudokuModal() {
         </BottomSheet>
     );
 }
+
+const styles = StyleSheet.create({
+    stats: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    title: {
+        textTransform: 'capitalize',
+        fontSize: 24,
+        textAlign: 'center',
+    },
+    icon: {
+        fontSize: 32,
+        padding: 3,
+    },
+    center: {
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+});

@@ -11,5 +11,5 @@ interface SudokuPosContextType {
 }
 
 export const SudokuPosContext = createContext<SudokuPosContextType>(
-    {} as SudokuPosContextType
+    {} as SudokuPosContextType,
 );

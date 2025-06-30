@@ -1,45 +1,46 @@
+import { GameState } from '@/context/SudokuGameState';
+
 const generatePuzzle = (puzzle: string) => {
     const array: string[][] = createBoard();
-    const sudokuArray = puzzle.split("")
+    const sudokuArray = puzzle.split('');
 
     array.map((row, rowIndex) => {
         row.map((column, columnIndex) => {
-            if (sudokuArray[rowIndex * 9 + columnIndex] !== "-") {
+            if (sudokuArray[rowIndex * 9 + columnIndex] !== '-') {
                 return array[rowIndex][columnIndex] = sudokuArray[rowIndex * 9 + columnIndex];
             }
-        })
-    })
+        });
+    });
 
     return array;
-}
+};
 
 const checkSolution = (rowIndex: number, columnIndex: number, boardSolution: string[][], number: string): boolean => {
     if (boardSolution[rowIndex][columnIndex] === number) return true;
     return false;
-}
+};
 
-const checkWin = (board: string[][]) => {
-    const flatBoard = board.flatMap((row) =>
-        row.map((cell) => {
-            if (cell === "-") return 0;
+const checkGameState = (board: string[][], chances: number): GameState => {
+    if (chances <= 0) return 'lose';
 
-            return parseInt(cell);
-        }));
+    // Check for any empty cells
+    for (const row of board) {
+        if (row.includes('-')) return 'playing';
+    }
 
-    const boardSum = flatBoard.reduce((total, value) => total + value); //Det totala värdet en sudokubräda har: 405
-
-    return boardSum === 405;
-}
+    // All cells are filled, so it's a win
+    return 'win';
+};
 
 const createBoard = () => {
-    const board: string[][] = []
+    const board: string[][] = [];
     for (let i = 0; i < 9; i++) {
         board.push([]);
         for (let j = 0; j < 9; j++) {
-            board[i].push("-")
+            board[i].push('-');
         }
     }
     return board;
-}
+};
 
-export { checkSolution, generatePuzzle, createBoard, checkWin }
+export { checkSolution, generatePuzzle, createBoard, checkGameState };
