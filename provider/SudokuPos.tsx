@@ -1,7 +1,7 @@
-import { PlayerPos, SudokuPosContext } from "@/context/SudokuPosContext";
-import { ReactNode, useState } from "react"
+import { PlayerPos, SudokuPosContext } from '@/context/SudokuPos';
+import { ReactNode, useState } from 'react';
 
-export const SudokuPosProvider = (({ children }: { children: ReactNode }) => {
+export const SudokuPosProvider = ({ children }: { children: ReactNode }) => {
     const [playerPos, setPlayerPos] = useState<PlayerPos>({ rowIndex: -1, columnIndex: -1 });
     return (
         <>
@@ -9,5 +9,5 @@ export const SudokuPosProvider = (({ children }: { children: ReactNode }) => {
                 {children}
             </SudokuPosContext.Provider>
         </>
-    )
-})
+    );
+};

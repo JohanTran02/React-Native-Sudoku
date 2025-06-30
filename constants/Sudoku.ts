@@ -1,6 +1,6 @@
-/* eslint-disable no-undef */
+import { Sudoku } from "@/types/sudoku";
 
-const difficulties: SudokuModeType[] = [
+const difficulties: Sudoku.SudokuModeType[] = [
     { difficulty: "easy", id: "Easy Mode" },
     { difficulty: "medium", id: "Medium Mode" },
     { difficulty: "hard", id: "Hard Mode" },

@@ -1,11 +1,8 @@
 import { defineConfig, globalIgnores } from 'eslint/config';
-import { fixupPluginRules } from '@eslint/compat';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactNative from 'eslint-plugin-react-native';
 import reactRefresh from 'eslint-plugin-react-refresh';
-import prettierPlugin from 'eslint-plugin-prettier';
 import stylistic from '@stylistic/eslint-plugin';
-import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import babelParser from '@babel/eslint-parser';
 import globals from 'globals';
 
@@ -22,7 +19,6 @@ export default defineConfig([
         '.vscode',
         '.expo-shared',
     ]),
-    // eslintConfigPrettier,
     reactHooks.configs['recommended-latest'],
     reactRefresh.configs['recommended'],
     stylistic.configs.customize({
@@ -30,8 +26,9 @@ export default defineConfig([
         quotes: 'single',
         semi: true,
         jsx: true,
-        commaDangle: 'always-multiline',
+        commaDangle: 'only-multiline',
         severity: 'error',
+        arrowParens: 'always',
     }),
     {
         files: ['**/*.{js,jsx,ts,tsx}'],
@@ -54,16 +51,12 @@ export default defineConfig([
             'react-native': reactNative,
             // 'react-refresh': fixupPluginRules(reactRefresh),
             '@stylistic': stylistic,
-            // 'prettier': prettierPlugin,
         },
         rules: {
             // React
             'react-refresh/only-export-components': 'warn',
             // 'react-hooks/rules-of-hooks': 'warn',
             // 'react-hooks/exhaustive-deps': 'error',
-
-            // Prettier formatting as ESLint rule
-            // 'prettier/prettier': 'warn',
 
             // Stylistic rules
             // '@stylistic/semi': 'warn',

@@ -1,19 +1,21 @@
-import { Stack } from "expo-router/stack";
-import "../global.css"
-import { SudokuChancesProvider } from "@/provider/SudokuChancesProvider";
-import { SudokuPosProvider } from "@/provider/SudokuPosProvider";
-import { SudokuBoardProvider } from "@/provider/SudokuBoardProvider";
+import { Stack } from 'expo-router/stack';
+import { SudokuChancesProvider } from '@/provider/SudokuChances';
+import { SudokuPosProvider } from '@/provider/SudokuPos';
+import { SudokuBoardProvider } from '@/provider/SudokuBoard';
+import { SudokuGameStateProvider } from '@/provider/SudokuGameState';
 
 export default function RootLayout() {
-  return (
-    <SudokuBoardProvider>
-      <SudokuPosProvider>
-        <SudokuChancesProvider>
-          <Stack>
-            <Stack.Screen name="index" />
-          </Stack>
-        </SudokuChancesProvider>
-      </SudokuPosProvider>
-    </SudokuBoardProvider>
-  );
+    return (
+        <SudokuBoardProvider>
+            <SudokuPosProvider>
+                <SudokuChancesProvider>
+                    <SudokuGameStateProvider>
+                        <Stack>
+                            <Stack.Screen name="sudoku" />
+                        </Stack>
+                    </SudokuGameStateProvider>
+                </SudokuChancesProvider>
+            </SudokuPosProvider>
+        </SudokuBoardProvider>
+    );
 }
